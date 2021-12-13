@@ -1,6 +1,10 @@
-//
-// Created by saldi on 11/30/2021.
-//
+/*************************************************************************
+** Author : Salvatore DiMaggio
+** Program : hw5, q1-6
+** Date Created : November 30, 2021
+** Date Last Modified : December 12, 2021
+** Usage : No command line arguments
+*/
 
 #include <iostream>
 #include <fstream>
@@ -29,12 +33,13 @@ ostream& operator<< (ostream &out, Profile &user)
 //define the function below to find a given Profile for which only name is provided. This function should return
 //true or false. If it finds the given name, it should also change the value of the second parameter as it's
 //passed by reference.
-bool searchDeque(deque<Profile> &pq, Profile &president);
+bool searchDeque(deque<struct Profile> *pq, Profile &president);
 int main() {
     queue <Profile> pQueue;
     deque <Profile> pDeque;
     Profile temp;
     string line;
+    MyList<Profile> pMylist;
 //this part is just informative. If you wanna practice how sstream and getline works
     string test = "truck	car";
     string token;
@@ -53,6 +58,7 @@ int main() {
             stringstream ss(line);
             getline(ss, temp.fullname, '\t');
             getline(ss, temp.state, '\t');
+            pMyList.insertHead( temp);
             //use push for your queue to insert president Profiles.
             //use push_front for your deque to insert president Profiles
 
@@ -61,7 +67,10 @@ int main() {
 
     cout<<"Printing queue members by using pop and front***********************"<<endl;
 //use a while loop by using front and pop function to both empty and print your President profiles.
-
+    while (!Mylist.empty()) {
+        cout << ' ' << MyList.top();
+        MyList.pop();
+    }
 
 
 
@@ -88,26 +97,26 @@ else
     return 0;
 }
 
-bool searchDeque( deque<Profile> &pq,   Profile &president)
+bool searchDeque(deque<struct Profile> *pq, Profile &president)
 {
-    deque<Profile>* here = pq;
+    deque<Profile>* here = (deque<struct Profile> *) pq;
 
     if (here == NULL)  {
-        return NULL;
+        return false;
     }
     else {
         while (here->getData( ) != president && here->getLink( ) != NULL)
             here = here->getLink( );
 
         if (here->getData( ) == president)
-            return here;
+            return true;
         else
-            return NULL;
+            return false;
     }
 }
 
 template<class T>
-void headInsert(Node<T>*& head, const T& theData) {
+void insertHead(Node<T>*& head, const T& theData) {
     head = new Node<T>(theData, head);
 }
 
@@ -134,7 +143,7 @@ void deleteNode(Node<T>* before) {
     delete discard;
 }
 template<class T>
-void deleteFirstNode(Node<T>*& head) {
+T deleteHead(Node<T>*& head) {
     Node<T> *discard;
     discard = head;
     head = head->getLink( );
@@ -142,19 +151,19 @@ void deleteFirstNode(Node<T>*& head) {
 }
 
 template<class T>
-Node<T>* search(Node<T>* head, const T& target) {
+bool search(Node<T>* head, const T& target) {
     Node<T>* here = head;
 
     if (here == NULL)  {
-        return NULL;
+        return false;
     }
     else {
         while (here->getData( ) != target && here->getLink( ) != NULL)
             here = here->getLink( );
 
         if (here->getData( ) == target)
-            return here;
+            return true;
         else
-            return NULL;
+            return false;
     }
 }
